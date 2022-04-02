@@ -122,7 +122,7 @@ class FeatureData {
 }
 
 class UserInfo {
-  final ImageProvider userAvatar;
+  final NetworkImage userAvatar;
   final String userName;
 
   UserInfo(this.userAvatar, this.userName);
