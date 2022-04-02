@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food_analyzer/app_colors/app_colors.dart';
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({Key? key}) : super(key: key);
@@ -12,7 +13,7 @@ class _AuthScreenState extends State<AuthScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: const Color(0xFF6ACC00),
+          backgroundColor: AppColors.appBarColor,
           title: const Text(
             'Sign In',
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
@@ -25,7 +26,7 @@ class _AuthScreenState extends State<AuthScreen> {
             child: AuthForm(),
           ),
         ),
-        backgroundColor: const Color.fromARGB(255, 245, 245, 245));
+        backgroundColor: AppColors.bgColor);
   }
 }
 
@@ -67,36 +68,40 @@ class _AuthFormState extends State<AuthForm> {
           Container(
             child: Text(
               errorMessage,
-              style: const TextStyle(fontSize: 16, color: Colors.red),
+              style: const TextStyle(fontSize: 16, color: AppColors.errorColor),
             ),
             padding: const EdgeInsets.only(bottom: 25),
           )
         ],
         TextField(
           decoration: InputDecoration(
-              enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                  borderSide:
-                      const BorderSide(width: 0, color: Color(0xFFE1E4E9))),
-              focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                  borderSide: const BorderSide(
-                      width: 0, color: Color.fromARGB(255, 189, 192, 196))),
-              hintText: 'Username'),
+            labelText: 'Username',
+            labelStyle: const TextStyle(color: AppColors.secondColor),
+            enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.0),
+                borderSide:
+                    const BorderSide(width: 0, color: AppColors.secondColor)),
+            focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.0),
+                borderSide:
+                    const BorderSide(width: 0, color: AppColors.secondColor)),
+          ),
           controller: _loginController,
         ),
         const SizedBox(height: 25),
         TextField(
           decoration: InputDecoration(
-              enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                  borderSide:
-                      const BorderSide(width: 0, color: Color(0xFFE1E4E9))),
-              focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                  borderSide: const BorderSide(
-                      width: 0, color: Color.fromARGB(255, 189, 192, 196))),
-              hintText: 'Password'),
+            labelText: 'Password',
+            labelStyle: const TextStyle(color: AppColors.secondColor),
+            enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.0),
+                borderSide:
+                    const BorderSide(width: 0, color: AppColors.secondColor)),
+            focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.0),
+                borderSide:
+                    const BorderSide(width: 0, color: AppColors.secondColor)),
+          ),
           obscureText: true,
           controller: _passwordController,
         ),
@@ -105,7 +110,7 @@ class _AuthFormState extends State<AuthForm> {
           onPressed: () {},
           child: const Text('Forgot your password?',
               style: TextStyle(
-                  color: Color(0xFF6ACC00),
+                  color: AppColors.mainColor,
                   fontSize: 16,
                   fontWeight: FontWeight.w600)),
         ),
@@ -118,7 +123,7 @@ class _AuthFormState extends State<AuthForm> {
                   padding: MaterialStateProperty.all(
                       const EdgeInsets.symmetric(horizontal: 35, vertical: 15)),
                   backgroundColor:
-                      MaterialStateProperty.all(const Color(0xFF6ACC00)),
+                      MaterialStateProperty.all(AppColors.mainColor),
                   shape: MaterialStateProperty.all(RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(25.0)))),
               onPressed: auth,
@@ -144,7 +149,7 @@ class _AuthFormState extends State<AuthForm> {
           children: [
             const Text('New user?',
                 style: TextStyle(
-                    color: Color(0xFF444A5A),
+                    color: AppColors.secondDarkColor,
                     fontSize: 16,
                     fontWeight: FontWeight.w600)),
             TextButton(
@@ -152,7 +157,7 @@ class _AuthFormState extends State<AuthForm> {
                 child: const Text(
                   'Create an account',
                   style: TextStyle(
-                      color: Color(0xFF6ACC00),
+                      color: AppColors.mainColor,
                       fontSize: 16,
                       fontWeight: FontWeight.w600),
                 )),

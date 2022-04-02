@@ -1,6 +1,8 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
+import 'package:food_analyzer/app_colors/app_colors.dart';
+import 'package:food_analyzer/widgets/main_screen/calculating_fragment/calculating_fragment.dart';
+import 'package:food_analyzer/widgets/main_screen/profile_fragment/profile_fragment.dart';
+import 'package:food_analyzer/widgets/main_screen/recipes_fragment/recipes_fragment.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -14,10 +16,11 @@ class _MainScreenState extends State<MainScreen> {
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
-    Text('Recipes', style: optionStyle),
-    Text('Calculating', style: optionStyle),
-    Text('Profile', style: optionStyle),
+    RecipesFragment(),
+    CalculatingFragment(),
+    ProfileFragment(),
   ];
+  String screenName = 'Main';
 
   void _OnItemTapped(int index) {
     setState(() {
@@ -27,11 +30,18 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if (_selectedIndex == 0) {
+      screenName = 'Recipes';
+    } else if (_selectedIndex == 1) {
+      screenName = 'Calculating';
+    } else {
+      screenName = 'Profile';
+    }
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: const Color(0xFF6ACC00),
-          title: const Text(
-            'Main Screen',
+          backgroundColor: AppColors.mainColor,
+          title: Text(
+            screenName,
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
           ),
           centerTitle: true,
@@ -55,9 +65,9 @@ class _MainScreenState extends State<MainScreen> {
             BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
           ],
           currentIndex: _selectedIndex,
-          selectedItemColor: const Color(0xFF6ACC00),
+          selectedItemColor: AppColors.mainColor,
           onTap: _OnItemTapped,
         ),
-        backgroundColor: const Color.fromARGB(255, 245, 245, 245));
+        backgroundColor: AppColors.bgColor);
   }
 }
