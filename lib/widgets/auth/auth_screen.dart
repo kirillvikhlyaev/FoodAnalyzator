@@ -20,7 +20,7 @@ class _AuthScreenState extends State<AuthScreen> {
           ),
           centerTitle: true,
         ),
-        body: const Center(
+        body: const SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 50, vertical: 25),
             child: AuthForm(),

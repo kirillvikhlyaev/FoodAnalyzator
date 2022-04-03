@@ -27,7 +27,7 @@ class _ProfileInfoState extends State<ProfileInfo> {
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
-      children: [
+      children: const [
         SizedBox(height: 20),
         CircleAvatar(
           child: Icon(
@@ -65,11 +65,6 @@ class UserFeatureList extends StatefulWidget {
 }
 
 class _UserFeatureListState extends State<UserFeatureList> {
-  // for (FeatureData item in data) {
-  //   final userFeatureListItem = UserFeatureListItem(data: item);
-  //   userFeatureListItems.add(userFeatureListItem);
-  // }
-
   @override
   Widget build(BuildContext context) {
     final List<UserFeatureListItem> userFeatureListItems = widget.data
@@ -95,21 +90,27 @@ class UserFeatureListItem extends StatefulWidget {
 class _UserFeatureListItemState extends State<UserFeatureListItem> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          children: [
-            SizedBox(width: 10),
-            Icon(widget.data.icon, size: 20, color: AppColors.secondDarkColor),
-            SizedBox(width: 10),
-            Text(widget.data.nameOfFeature),
-            Spacer(),
-            Icon(Icons.arrow_forward_ios,
-                size: 15, color: AppColors.secondDarkColor),
-          ],
-        ),
-        Divider(),
-      ],
+    return InkWell(
+      onTap: () {},
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            child: Row(
+              children: [
+                SizedBox(width: 10),
+                Icon(widget.data.icon,
+                    size: 20, color: AppColors.secondDarkColor),
+                SizedBox(width: 10),
+                Text(widget.data.nameOfFeature),
+                Spacer(),
+                Icon(Icons.arrow_forward_ios,
+                    size: 15, color: AppColors.secondDarkColor),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

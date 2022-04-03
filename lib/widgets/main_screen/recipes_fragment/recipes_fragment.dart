@@ -58,35 +58,39 @@ class _RecipeItemState extends State<RecipeItem> {
   Widget build(BuildContext context) {
     return Container(
       color: AppColors.bgColor,
-      padding: EdgeInsets.all(10),
+      padding: const EdgeInsets.all(10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Image(image: widget.recipe.recipeImage),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           Text(
             widget.recipe.recipeTitle,
-            style: TextStyle(
+            style: const TextStyle(
                 color: AppColors.secondDarkColor,
                 fontSize: 16,
                 fontWeight: FontWeight.w600),
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           Text(widget.recipe.recipeDecription),
-          SizedBox(height: 5),
+          const SizedBox(height: 5),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               TextButton(
-                  onPressed: () {},
-                  child: Text(
-                    'Read more',
-                    style: TextStyle(color: AppColors.mainColor, fontSize: 16),
-                  )),
-              SizedBox(width: 10),
+                onPressed: () {},
+                child: const Text(
+                  'Read more',
+                  style: TextStyle(color: AppColors.mainColor, fontSize: 16),
+                ),
+                style: ButtonStyle(
+                    overlayColor: MaterialStateProperty.all(
+                        AppColors.overlayButtonColor)),
+              ),
+              const SizedBox(width: 10),
             ],
           ),
-          SizedBox(height: 5)
+          const SizedBox(height: 5)
         ],
       ),
     );
