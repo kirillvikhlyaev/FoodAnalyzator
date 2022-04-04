@@ -52,11 +52,13 @@ class _ProfileInfoState extends State<ProfileInfo> {
 
 class UserFeatureList extends StatefulWidget {
   final List<FeatureData> data = [
-    FeatureData(icon: Icons.history, nameOfFeature: 'Calculating history'),
     FeatureData(
+        id: 1, icon: Icons.history, nameOfFeature: 'Calculating history'),
+    FeatureData(
+        id: 2,
         icon: Icons.favorite_border_outlined,
         nameOfFeature: 'Favorite recipes'),
-    FeatureData(icon: Icons.settings, nameOfFeature: 'Settings')
+    FeatureData(id: 3, icon: Icons.settings, nameOfFeature: 'Settings')
   ];
 
   UserFeatureList({Key? key}) : super(key: key);
@@ -71,7 +73,7 @@ class _UserFeatureListState extends State<UserFeatureList> {
         .map((FeatureData item) => UserFeatureListItem(data: item))
         .toList();
     return Container(
-      padding: EdgeInsets.all(10.0),
+      padding: const EdgeInsets.all(10.0),
       child: Column(
         children: userFeatureListItems,
       ),
@@ -90,21 +92,35 @@ class UserFeatureListItem extends StatefulWidget {
 class _UserFeatureListItemState extends State<UserFeatureListItem> {
   @override
   Widget build(BuildContext context) {
+    void _OnFeatureTap() {
+      switch (widget.data.id) {
+        case 1:
+          Navigator.of(context).pushNamed('/main_screen/calculating_history');
+          break;
+        case 2:
+          Navigator.of(context).pushNamed('/main_screen/favorite_list');
+          break;
+        case 3:
+          Navigator.of(context).pushNamed('/main_screen/settings');
+          break;
+      }
+    }
+
     return InkWell(
-      onTap: () {},
+      onTap: _OnFeatureTap,
       child: Column(
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10),
             child: Row(
               children: [
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 Icon(widget.data.icon,
                     size: 20, color: AppColors.secondDarkColor),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 Text(widget.data.nameOfFeature),
-                Spacer(),
-                Icon(Icons.arrow_forward_ios,
+                const Spacer(),
+                const Icon(Icons.arrow_forward_ios,
                     size: 15, color: AppColors.secondDarkColor),
               ],
             ),
@@ -116,10 +132,12 @@ class _UserFeatureListItemState extends State<UserFeatureListItem> {
 }
 
 class FeatureData {
-  IconData icon;
-  String nameOfFeature;
+  final int id;
+  final IconData icon;
+  final String nameOfFeature;
 
-  FeatureData({required this.icon, required this.nameOfFeature});
+  FeatureData(
+      {required this.id, required this.icon, required this.nameOfFeature});
 }
 /*
 
