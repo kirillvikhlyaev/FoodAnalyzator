@@ -121,14 +121,6 @@ class FeatureData {
 
   FeatureData({required this.icon, required this.nameOfFeature});
 }
-
-class UserInfo {
-  final NetworkImage userAvatar;
-  final String userName;
-
-  UserInfo(this.userAvatar, this.userName);
-}
-
 /*
 
   Вариант: Под юзернеймом сделать календарную рулетку и 
