@@ -67,13 +67,111 @@ class _RecipeInfoState extends State<RecipeInfo> {
     }
 
     return Column(
+      mainAxisSize: MainAxisSize.max,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Image(image: widget.recipe.image),
+        Image(image: NetworkImage(widget.recipe.imgURL, scale: 0.5)),
         const SizedBox(height: 15),
-        Text(
-          widget.recipe.description,
-          style: const TextStyle(fontSize: 16),
+        const Text('Information: ',
+            style: TextStyle(
+                color: AppColors.secondDarkColor,
+                fontSize: 20,
+                fontWeight: FontWeight.bold)),
+        const SizedBox(height: 15),
+        Padding(
+          padding: const EdgeInsets.only(left: 15.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              RichText(
+                  text: TextSpan(children: [
+                const TextSpan(
+                    text: 'Cusine: ',
+                    style: TextStyle(
+                        color: AppColors.secondDarkColor,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 16)),
+                TextSpan(
+                    text: widget.recipe.cuisineType.join(", "),
+                    style: const TextStyle(
+                        color: AppColors.secondDarkColor, fontSize: 16)),
+              ])),
+              RichText(
+                  text: TextSpan(children: [
+                const TextSpan(
+                    text: 'Meal type: ',
+                    style: TextStyle(
+                        color: AppColors.secondDarkColor,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 16)),
+                TextSpan(
+                    text: widget.recipe.mealType.join(", "),
+                    style: const TextStyle(
+                        color: AppColors.secondDarkColor, fontSize: 16)),
+              ])),
+              RichText(
+                  text: TextSpan(children: [
+                const TextSpan(
+                    text: 'Dish type: ',
+                    style: TextStyle(
+                        color: AppColors.secondDarkColor,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 16)),
+                TextSpan(
+                    text: widget.recipe.dishtype.join(", "),
+                    style: const TextStyle(
+                        color: AppColors.secondDarkColor, fontSize: 16)),
+              ])),
+              RichText(
+                  text: TextSpan(children: [
+                const TextSpan(
+                    text: 'Total time: ',
+                    style: TextStyle(
+                        color: AppColors.secondDarkColor,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 16)),
+                TextSpan(
+                    text: '${widget.recipe.totalTime.round()} minutes',
+                    style: const TextStyle(
+                        color: AppColors.secondDarkColor, fontSize: 16)),
+              ])),
+              RichText(
+                  text: TextSpan(children: [
+                const TextSpan(
+                    text: 'Calories: ',
+                    style: TextStyle(
+                        color: AppColors.secondDarkColor,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 16)),
+                TextSpan(
+                    text: '${widget.recipe.calories.round()} ccal',
+                    style: const TextStyle(
+                        color: AppColors.secondDarkColor, fontSize: 16)),
+              ])),
+            ],
+          ),
         ),
+        const SizedBox(height: 15),
+        const Divider(),
+        const SizedBox(height: 15),
+        const Text('Ingedients: ',
+            style: TextStyle(
+                color: AppColors.secondDarkColor,
+                fontSize: 20,
+                fontWeight: FontWeight.bold)),
+        const SizedBox(height: 15),
+        Padding(
+            padding: const EdgeInsets.only(left: 15.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  '- ' + widget.recipe.ingredientLines.join(';\n- '),
+                  style: const TextStyle(
+                      fontSize: 16, color: AppColors.secondDarkColor),
+                ),
+              ],
+            )),
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [

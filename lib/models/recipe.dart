@@ -1,14 +1,20 @@
-import 'package:flutter/cupertino.dart';
-
 class Recipe {
-  final int id;
   final String title;
-  final String description;
-  final NetworkImage image;
+  final String imgURL;
+  final double calories;
+  final double totalTime;
+  final List<dynamic> dishtype;
+  final List<dynamic> cuisineType;
+  final List<dynamic> mealType;
+  final List<dynamic> ingredientLines;
 
   Recipe(
-      {required this.id,
-      required this.title,
-      required this.description,
-      required this.image});
+      {required this.title,
+      required this.imgURL,
+      required this.calories,
+      required this.totalTime,
+      required this.dishtype,
+      required this.cuisineType,
+      required this.mealType,
+      required this.ingredientLines});
 }
