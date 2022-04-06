@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food_analyzer/app_colors/app_colors.dart';
 import 'package:food_analyzer/models/recipe.dart';
+import 'package:food_analyzer/widgets/provider_advanced_search_model.dart';
 import 'package:food_analyzer/widgets/provider_model.dart';
 
 class RecipesFragment extends StatefulWidget {
@@ -11,19 +12,23 @@ class RecipesFragment extends StatefulWidget {
 }
 
 class _RecipesFragmentState extends State<RecipesFragment> {
-  final model = RecipeWidgetModel();
+  final ApiModel = RecipeWidgetModel();
+  final AdvancedModel = AdvancedSearchModel();
 
   @override
   Widget build(BuildContext context) {
     return Container(
       color: AppColors.secondColor,
       child: RecipeModelProvider(
-        model: model,
-        child: Column(
-          children: [
-            RecipeInfo(),
-            const Expanded(child: _RecipiesWidget()),
-          ],
+        model: ApiModel,
+        child: AdvancedSearchProvider(
+          model: AdvancedModel,
+          child: Column(
+            children: [
+              RecipeInfo(),
+              const Expanded(child: _RecipiesWidget()),
+            ],
+          ),
         ),
       ),
     );
@@ -33,6 +38,9 @@ class _RecipesFragmentState extends State<RecipesFragment> {
 class RecipeInfo extends StatefulWidget {
   RecipeInfo({Key? key}) : super(key: key);
 
+  bool isFilteredSearchVisible = false;
+  IconData filteredIcon = Icons.arrow_downward;
+
   @override
   State<RecipeInfo> createState() => _RecipeInfoState();
 }
@@ -41,7 +49,19 @@ class _RecipeInfoState extends State<RecipeInfo> {
   @override
   Widget build(BuildContext context) {
     var controller = TextEditingController();
+
+    void OnAdvancedSearchTap() {
+      widget.isFilteredSearchVisible = !widget.isFilteredSearchVisible;
+      if (!widget.isFilteredSearchVisible)
+        widget.filteredIcon = Icons.arrow_downward;
+      else
+        widget.filteredIcon = Icons.arrow_upward;
+      print(widget.isFilteredSearchVisible);
+      setState(() {});
+    }
+
     void onSearchTap() {
+      widget.isFilteredSearchVisible = false;
       RecipeModelProvider.read(context)?.model.searchByKey(controller.text);
       setState(() {});
     }
@@ -65,23 +85,203 @@ class _RecipeInfoState extends State<RecipeInfo> {
                         width: 0, color: AppColors.secondColor))),
             controller: controller,
           ),
+          Visibility(
+            visible: widget.isFilteredSearchVisible,
+            child: _AdvansedSearchField(),
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               OutlinedButton(
+                onPressed: OnAdvancedSearchTap,
+                child: Row(children: [
+                  const Text('Filtered search',
+                      style: TextStyle(color: AppColors.mainColor)),
+                  const SizedBox(width: 10),
+                  Icon(widget.filteredIcon, color: AppColors.mainColor),
+                ]),
+              ),
+              const SizedBox(width: 10),
+              OutlinedButton(
                   onPressed: onSearchTap,
                   child: const Text('Search',
                       style: TextStyle(color: AppColors.mainColor))),
-              // const SizedBox(width: 20),
-              // OutlinedButton(
-              //     onPressed: () =>
-              //         RecipeModelProvider.read(context)?.model.reloadRecipies(),
-              //     child: const Text('SHOW',
-              //         style: TextStyle(color: AppColors.mainColor))),
             ],
           ),
         ],
       ),
+    );
+  }
+}
+
+class _AdvansedSearchField extends StatefulWidget {
+  const _AdvansedSearchField({Key? key}) : super(key: key);
+
+  @override
+  State<_AdvansedSearchField> createState() => __AdvansedSearchFieldState();
+}
+
+class __AdvansedSearchFieldState extends State<_AdvansedSearchField> {
+  String cuisineTypeValue = 'All';
+  String dishTypeValue = 'All';
+  String mealTypeValue = 'All';
+
+  List<String> cuisineTypes = [
+    'All',
+    'American',
+    'Asian',
+    'British',
+    'Caribbean',
+    'Central Europe',
+    'Chinese',
+    'Eastern Europe',
+    'French',
+    'Indian',
+    'Italian',
+    'Japanese',
+    'Kosher',
+    'Mediterranean',
+    'Mexican',
+    'Middle Eastern',
+    'Nordic',
+    'South American',
+    'South East Asian'
+  ];
+  List<String> dishTypes = [
+    'All',
+    'Biscuits and cookies',
+    'Bread',
+    'Cereals',
+    'Condiments and sauces',
+    'Desserts',
+    'Drinks',
+    'Main course',
+    'Pancake',
+    'Preps',
+    'Preserve',
+    'Salad',
+    'Sandwiches',
+    'Side dish',
+    'Soup',
+    'Starter',
+    'Sweets'
+  ];
+  List<String> mealTypes = [
+    'All',
+    'Breakfast',
+    'Dinner',
+    'Lunch',
+    'Snack',
+    'Teatime'
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            const Text('Cuisin type:',
+                style: TextStyle(
+                    color: AppColors.secondDarkColor,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold)),
+            DropdownButton<String>(
+              value: cuisineTypeValue,
+              icon: const Icon(Icons.arrow_downward),
+              elevation: 16,
+              style: const TextStyle(
+                color: AppColors.secondDarkColor,
+                fontSize: 16,
+              ),
+              underline: Container(
+                height: 2,
+                color: AppColors.appBarColor,
+              ),
+              onChanged: (String? newValue) {
+                setState(() {
+                  cuisineTypeValue = newValue!;
+                });
+              },
+              items: cuisineTypes.map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
+            ),
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            const Text('Dish type:',
+                style: TextStyle(
+                    color: AppColors.secondDarkColor,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold)),
+            DropdownButton<String>(
+              value: dishTypeValue,
+              icon: const Icon(Icons.arrow_downward),
+              elevation: 16,
+              style: const TextStyle(
+                color: AppColors.secondDarkColor,
+                fontSize: 16,
+              ),
+              underline: Container(
+                height: 2,
+                color: AppColors.appBarColor,
+              ),
+              onChanged: (String? newValue) {
+                setState(() {
+                  dishTypeValue = newValue!;
+                });
+              },
+              items: dishTypes.map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
+            ),
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            const Text('Meal type:',
+                style: TextStyle(
+                    color: AppColors.secondDarkColor,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold)),
+            DropdownButton<String>(
+              value: mealTypeValue,
+              icon: const Icon(Icons.arrow_downward),
+              elevation: 16,
+              style: const TextStyle(
+                color: AppColors.secondDarkColor,
+                fontSize: 16,
+              ),
+              underline: Container(
+                height: 2,
+                color: AppColors.appBarColor,
+              ),
+              onChanged: (String? newValue) {
+                setState(() {
+                  mealTypeValue = newValue!;
+                });
+              },
+              items: mealTypes.map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }
@@ -144,7 +344,7 @@ class _RecioiesRowWidgetState extends State<RecioiesRowWidget> {
                       fontSize: 20,
                       fontWeight: FontWeight.bold),
                 ),
-                Text('${recipe.dishtype.join()}',
+                Text(recipe.dishtype.join(", "),
                     style: const TextStyle(
                         color: AppColors.secondColor, fontSize: 16)),
                 const SizedBox(height: 25),
@@ -182,73 +382,3 @@ class _RecioiesRowWidgetState extends State<RecioiesRowWidget> {
     );
   }
 }
-
-
-// -------------------------------------------------------------
-// ListView.separated(
-//         itemCount: recipeItems.length,
-//         itemBuilder: (BuildContext context, int index) {
-//           return recipeItems[index];
-//         },
-//         separatorBuilder: (BuildContext context, int index) {
-//           return const SizedBox(height: 15);
-//         },
-//       ),
-// -------------------------------------------------------------
-// class RecipeItem extends StatefulWidget {
-//   final Recipe recipe;
-//   const RecipeItem({Key? key, required this.recipe}) : super(key: key);
-
-//   @override
-//   State<RecipeItem> createState() => _RecipeItemState();
-// }
-
-// class _RecipeItemState extends State<RecipeItem> {
-  // _onReadMoreButtonTap() {
-  //   final recipeObject = widget.recipe;
-  //   Navigator.of(context)
-  //       .pushNamed('/main_screen/recipe_details', arguments: recipeObject);
-  // }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       color: AppColors.bgColor,
-//       padding: const EdgeInsets.all(10),
-      // child: Column(
-      //   crossAxisAlignment: CrossAxisAlignment.start,
-      //   children: [
-      //     Image(image: widget.recipe.image),
-      //     const SizedBox(height: 10),
-      //     Text(
-      //       widget.recipe.title,
-      //       style: const TextStyle(
-      //           color: AppColors.secondDarkColor,
-      //           fontSize: 16,
-      //           fontWeight: FontWeight.w600),
-      //     ),
-      //     const SizedBox(height: 10),
-      //     Text(widget.recipe.description),
-      //     const SizedBox(height: 5),
-      //     Row(
-      //       mainAxisAlignment: MainAxisAlignment.end,
-      //       children: [
-      //         TextButton(
-      //           onPressed: _onReadMoreButtonTap,
-      //           child: const Text(
-      //             'Read more',
-      //             style: TextStyle(color: AppColors.mainColor, fontSize: 16),
-      //           ),
-      //           style: ButtonStyle(
-      //               overlayColor: MaterialStateProperty.all(
-      //                   AppColors.overlayButtonColor)),
-      //         ),
-      //         const SizedBox(width: 10),
-      //       ],
-      //     ),
-      //     const SizedBox(height: 5)
-      //   ],
-      // ),
-//     );
-//   }
-// }

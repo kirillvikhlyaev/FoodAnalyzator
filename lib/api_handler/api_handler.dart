@@ -6,35 +6,14 @@ import 'package:food_analyzer/models/recipe.dart';
 class ApiClient {
   final client = HttpClient();
 
-  // Future<List<Recipe>> getRecipies() async {
-  //   List<Recipe> recList = [];
-  //   final url = Uri.parse(
-  //       'https://api.edamam.com/api/recipes/v2?type=public&q=chicken&app_id=6d380312&app_key=87bd4b90aa93c4dc4d12c92ba7f46672&diet=low-fat&cuisineType=Caribbean&imageSize=LARGE&random=true');
-  //   final request = await client.getUrl(url);
-  //   final response = await request.close();
-  //   final jsonStrings = await response.transform(utf8.decoder).toList();
-
-  //   final jsonString = jsonStrings.join();
-  //   final json = jsonDecode(jsonString) as Map<String, dynamic>;
-  //   final recipe = JsonData.fromJson(json).hits;
-
-  //   for (int i = 0; i < recipe.length; i++) {
-  //     // Наполняем список полученными рецептами
-  //     final rec = Recipe(
-  //         title: recipe[i]['recipe']['label'],
-  //         imgURL: recipe[i]['recipe']['image'],
-  //         calories: recipe[i]['recipe']['calories'],
-  //         totalTime: recipe[i]['recipe']['totalTime']);
-  //     recList.add(rec);
-  //   }
-
-  //   return recList;
-  // }
-
   Future<List<Recipe>> getRecipiesByKey(String key) async {
     List<Recipe> recList = [];
+
+    final APPID = '6d380312';
+    final APPKEY = '87bd4b90aa93c4dc4d12c92ba7f46672';
+
     final url = Uri.parse(
-        'https://api.edamam.com/api/recipes/v2?type=public&q=${key}&app_id={APP_ID}&app_key={APP_KEY}&diet=balanced&cuisineType=american&imageSize=LARGE&random=true');
+        'https://api.edamam.com/api/recipes/v2?type=public&q=${key}&app_id=${APPID}&app_key=${APPKEY}');
     final request = await client.getUrl(url);
     final response = await request.close();
     final jsonStrings = await response.transform(utf8.decoder).toList();
