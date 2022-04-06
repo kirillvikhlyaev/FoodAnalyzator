@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_analyzer/app_colors/app_colors.dart';
 import 'package:food_analyzer/models/recipe.dart';
-import 'package:food_analyzer/widgets/provider_advanced_search_model.dart';
 import 'package:food_analyzer/widgets/provider_model.dart';
 
 class RecipesFragment extends StatefulWidget {
@@ -13,7 +12,6 @@ class RecipesFragment extends StatefulWidget {
 
 class _RecipesFragmentState extends State<RecipesFragment> {
   final ApiModel = RecipeWidgetModel();
-  final AdvancedModel = AdvancedSearchModel();
 
   @override
   Widget build(BuildContext context) {
@@ -21,14 +19,11 @@ class _RecipesFragmentState extends State<RecipesFragment> {
       color: AppColors.secondColor,
       child: RecipeModelProvider(
         model: ApiModel,
-        child: AdvancedSearchProvider(
-          model: AdvancedModel,
-          child: Column(
-            children: [
-              RecipeInfo(),
-              const Expanded(child: _RecipiesWidget()),
-            ],
-          ),
+        child: Column(
+          children: [
+            RecipeInfo(),
+            const Expanded(child: _RecipiesWidget()),
+          ],
         ),
       ),
     );
@@ -177,111 +172,121 @@ class __AdvansedSearchFieldState extends State<_AdvansedSearchField> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            const Text('Cuisin type:',
-                style: TextStyle(
-                    color: AppColors.secondDarkColor,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold)),
-            DropdownButton<String>(
-              value: cuisineTypeValue,
-              icon: const Icon(Icons.arrow_downward),
-              elevation: 16,
-              style: const TextStyle(
-                color: AppColors.secondDarkColor,
-                fontSize: 16,
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text('Cuisin type:',
+                  style: TextStyle(
+                      color: AppColors.secondDarkColor,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold)),
+              DropdownButton<String>(
+                value: cuisineTypeValue,
+                icon: const Icon(Icons.arrow_downward),
+                elevation: 16,
+                style: const TextStyle(
+                  color: AppColors.secondDarkColor,
+                  fontSize: 16,
+                ),
+                underline: Container(
+                  height: 2,
+                  color: AppColors.appBarColor,
+                ),
+                onChanged: (String? newValue) {
+                  setState(() {
+                    cuisineTypeValue = newValue!;
+                    RecipeModelProvider.read(context)?.model.cuisineTypeValue =
+                        cuisineTypeValue;
+                  });
+                },
+                items:
+                    cuisineTypes.map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
               ),
-              underline: Container(
-                height: 2,
-                color: AppColors.appBarColor,
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text('Dish type:',
+                  style: TextStyle(
+                      color: AppColors.secondDarkColor,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold)),
+              DropdownButton<String>(
+                value: dishTypeValue,
+                icon: const Icon(Icons.arrow_downward),
+                elevation: 16,
+                style: const TextStyle(
+                  color: AppColors.secondDarkColor,
+                  fontSize: 16,
+                ),
+                underline: Container(
+                  height: 2,
+                  color: AppColors.appBarColor,
+                ),
+                onChanged: (String? newValue) {
+                  setState(() {
+                    dishTypeValue = newValue!;
+                    RecipeModelProvider.read(context)?.model.dishTypeValue =
+                        dishTypeValue;
+                  });
+                },
+                items: dishTypes.map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
               ),
-              onChanged: (String? newValue) {
-                setState(() {
-                  cuisineTypeValue = newValue!;
-                });
-              },
-              items: cuisineTypes.map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
-            ),
-          ],
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            const Text('Dish type:',
-                style: TextStyle(
-                    color: AppColors.secondDarkColor,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold)),
-            DropdownButton<String>(
-              value: dishTypeValue,
-              icon: const Icon(Icons.arrow_downward),
-              elevation: 16,
-              style: const TextStyle(
-                color: AppColors.secondDarkColor,
-                fontSize: 16,
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text('Meal type:',
+                  style: TextStyle(
+                      color: AppColors.secondDarkColor,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold)),
+              DropdownButton<String>(
+                value: mealTypeValue,
+                icon: const Icon(Icons.arrow_downward),
+                elevation: 16,
+                style: const TextStyle(
+                  color: AppColors.secondDarkColor,
+                  fontSize: 16,
+                ),
+                underline: Container(
+                  height: 2,
+                  color: AppColors.appBarColor,
+                ),
+                onChanged: (String? newValue) {
+                  setState(() {
+                    mealTypeValue = newValue!;
+                    RecipeModelProvider.read(context)?.model.mealTypeValue =
+                        mealTypeValue;
+                  });
+                },
+                items: mealTypes.map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
               ),
-              underline: Container(
-                height: 2,
-                color: AppColors.appBarColor,
-              ),
-              onChanged: (String? newValue) {
-                setState(() {
-                  dishTypeValue = newValue!;
-                });
-              },
-              items: dishTypes.map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
-            ),
-          ],
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            const Text('Meal type:',
-                style: TextStyle(
-                    color: AppColors.secondDarkColor,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold)),
-            DropdownButton<String>(
-              value: mealTypeValue,
-              icon: const Icon(Icons.arrow_downward),
-              elevation: 16,
-              style: const TextStyle(
-                color: AppColors.secondDarkColor,
-                fontSize: 16,
-              ),
-              underline: Container(
-                height: 2,
-                color: AppColors.appBarColor,
-              ),
-              onChanged: (String? newValue) {
-                setState(() {
-                  mealTypeValue = newValue!;
-                });
-              },
-              items: mealTypes.map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
-            ),
-          ],
-        ),
-      ],
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
