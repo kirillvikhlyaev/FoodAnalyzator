@@ -8,7 +8,7 @@ class ProfileFragment extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView(
       children: [
-        ProfileInfo(),
+        const ProfileInfo(),
         UserFeatureList(),
       ],
     );

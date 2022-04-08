@@ -4,10 +4,14 @@ import 'package:food_analyzer/widgets/auth/auth_screen.dart';
 import 'package:food_analyzer/widgets/main_screen/main_screen.dart';
 import 'package:food_analyzer/widgets/main_screen/profile_fragment/calculating_history_page/calculating_history_page.dart';
 import 'package:food_analyzer/widgets/main_screen/profile_fragment/favorite_list_page/favorite_list_page.dart';
+import 'package:food_analyzer/widgets/main_screen/profile_fragment/favorite_list_page/favorite_recipe_details.dart';
 import 'package:food_analyzer/widgets/main_screen/profile_fragment/settings_page/settings_page.dart';
 import 'package:food_analyzer/widgets/main_screen/recipes_fragment/recipe_details_page/recipe_details_page.dart';
+import 'package:hive_flutter/adapters.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
   runApp(const MyApp());
 }
 
@@ -34,6 +38,11 @@ class MyApp extends StatelessWidget {
         '/main_screen/calculating_history': (context) =>
             const CalculatingHistory(),
         '/main_screen/settings': (context) => const Settings(),
+        '/main_screen/favorite_list/favorite_recipe_details': (context) {
+          final recipeObject =
+              ModalRoute.of(context)!.settings.arguments as Recipe;
+          return FavoriteRecipeDetailsWidget(recipeObject: recipeObject);
+        },
       },
     );
   }

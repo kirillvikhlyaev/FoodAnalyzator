@@ -9,9 +9,7 @@ class ApiClient {
   Future<List<Recipe>> getRecipiesByKey(
       String key, String cuisinType, String mealType, String dishType) async {
     List<Recipe> recList = [];
-
-    //
-
+//
     final url = Uri.parse(
         'https://api.edamam.com/api/recipes/v2?type=public&q=${key}&app_id=${APPID}&app_key=${APPKEY}' +
             cuisinType +

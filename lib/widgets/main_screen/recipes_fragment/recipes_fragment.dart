@@ -301,7 +301,7 @@ class _RecipiesWidget extends StatelessWidget {
       shrinkWrap: true,
       itemCount: RecipeModelProvider.watch(context)?.model.recipies.length ?? 0,
       itemBuilder: (BuildContext context, int index) {
-        return RecioiesRowWidget(index: index);
+        return RecipiesRowWidget(index: index);
       },
       separatorBuilder: (BuildContext context, int index) {
         return const SizedBox(height: 20);
@@ -311,15 +311,15 @@ class _RecipiesWidget extends StatelessWidget {
   }
 }
 
-class RecioiesRowWidget extends StatefulWidget {
+class RecipiesRowWidget extends StatefulWidget {
   final int index;
-  const RecioiesRowWidget({Key? key, required this.index}) : super(key: key);
+  const RecipiesRowWidget({Key? key, required this.index}) : super(key: key);
 
   @override
-  State<RecioiesRowWidget> createState() => _RecioiesRowWidgetState();
+  State<RecipiesRowWidget> createState() => _RecipiesRowWidgetState();
 }
 
-class _RecioiesRowWidgetState extends State<RecioiesRowWidget> {
+class _RecipiesRowWidgetState extends State<RecipiesRowWidget> {
   @override
   Widget build(BuildContext context) {
     final recipe =
