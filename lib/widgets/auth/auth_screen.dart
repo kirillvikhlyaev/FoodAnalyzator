@@ -52,7 +52,7 @@ class _AuthFormState extends State<AuthForm> {
       errorMessage = null;
       Navigator.pushReplacementNamed(context, '/main_screen');
     } else {
-      errorMessage = 'Username or password incorrect!';
+      errorMessage = 'User name or password incorrect!';
     }
 
     setState(() {});
@@ -75,7 +75,7 @@ class _AuthFormState extends State<AuthForm> {
         ],
         TextField(
           decoration: InputDecoration(
-            labelText: 'Username',
+            labelText: 'User name',
             labelStyle: const TextStyle(color: AppColors.secondColor),
             enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10.0),
@@ -153,7 +153,8 @@ class _AuthFormState extends State<AuthForm> {
                     fontSize: 16,
                     fontWeight: FontWeight.w600)),
             TextButton(
-                onPressed: () {},
+                onPressed: () =>
+                    Navigator.pushNamed(context, '/auth/create_an_account'),
                 child: const Text(
                   'Create an account',
                   style: TextStyle(

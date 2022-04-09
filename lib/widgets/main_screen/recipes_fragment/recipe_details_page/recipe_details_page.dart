@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:food_analyzer/app_colors/app_colors.dart';
 import 'package:food_analyzer/models/recipe.dart';
-import 'package:food_analyzer/widgets/favorite_provider.dart';
-import 'package:food_analyzer/widgets/provider_model.dart';
+import 'package:food_analyzer/providers/favorite_provider.dart';
+import 'package:food_analyzer/providers/provider_model.dart';
 
 class RecipeDetails extends StatefulWidget {
   final Recipe recipeObject;

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food_analyzer/models/recipe.dart';
 import 'package:food_analyzer/widgets/auth/auth_screen.dart';
+import 'package:food_analyzer/widgets/auth/create_account_screen.dart';
 import 'package:food_analyzer/widgets/main_screen/main_screen.dart';
 import 'package:food_analyzer/widgets/main_screen/profile_fragment/calculating_history_page/calculating_history_page.dart';
 import 'package:food_analyzer/widgets/main_screen/profile_fragment/favorite_list_page/favorite_list_page.dart';
@@ -25,9 +26,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: Colors.green,
       ),
-      initialRoute: '/',
+      initialRoute: '/auth',
       routes: {
-        '/': (context) => const AuthScreen(),
+        '/auth': (context) => const AuthScreen(),
         '/main_screen': (context) => const MainScreen(),
         '/main_screen/recipe_details': (context) {
           final recipeObject =
@@ -43,6 +44,7 @@ class MyApp extends StatelessWidget {
               ModalRoute.of(context)!.settings.arguments as Recipe;
           return FavoriteRecipeDetailsWidget(recipeObject: recipeObject);
         },
+        '/auth/create_an_account': (context) => const CreateAccountScreen(),
       },
     );
   }

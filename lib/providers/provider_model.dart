@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:food_analyzer/api_handler/api_handler.dart';
+import 'package:food_analyzer/api_handler/recipe_api_handler.dart';
 import 'package:food_analyzer/models/recipe.dart';
 
 class RecipeWidgetModel extends ChangeNotifier {
-  final apiClient = ApiClient();
+  final apiClient = RecipeApiClient();
   var _recipies = <Recipe>[];
 
   String _cuisineTypeValue = 'All';

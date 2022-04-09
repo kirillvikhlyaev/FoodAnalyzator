@@ -45,13 +45,6 @@ class _MainScreenState extends State<MainScreen> {
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
           ),
           centerTitle: true,
-          actions: [
-            IconButton(
-                onPressed: () {
-                  Navigator.pushReplacementNamed(context, '/');
-                },
-                icon: const Icon(Icons.logout_outlined)),
-          ],
         ),
         body: Center(
           child: _widgetOptions.elementAt(_selectedIndex),

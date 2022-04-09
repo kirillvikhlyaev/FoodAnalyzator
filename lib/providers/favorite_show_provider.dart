@@ -21,6 +21,14 @@ class ShowFavoriteListModel extends ChangeNotifier {
     await box.deleteAt(index);
   }
 
+  void clearRecipeList() async {
+    if (!Hive.isAdapterRegistered(1)) {
+      Hive.registerAdapter(RecipeAdapter());
+    }
+    final box = await Hive.openBox<Recipe>('favorite_recipies');
+    await box.clear();
+  }
+
   void _loadData() async {
     if (!Hive.isAdapterRegistered(1)) {
       Hive.registerAdapter(RecipeAdapter());

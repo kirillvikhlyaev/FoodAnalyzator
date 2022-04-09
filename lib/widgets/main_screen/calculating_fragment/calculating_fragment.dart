@@ -1,18 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:food_analyzer/api_handler/nutrion_analysis_api_handler.dart';
 import 'package:food_analyzer/app_colors/app_colors.dart';
+import 'package:food_analyzer/providers/calculating_history_save_provider.dart';
+import 'package:food_analyzer/providers/nutrion_analysis_provider.dart';
 
-class CalculatingFragment extends StatelessWidget {
+class CalculatingFragment extends StatefulWidget {
   const CalculatingFragment({Key? key}) : super(key: key);
 
   @override
+  State<CalculatingFragment> createState() => _CalculatingFragmentState();
+}
+
+class _CalculatingFragmentState extends State<CalculatingFragment> {
+  final _model = NutrionAnalysisModel();
+  @override
   Widget build(BuildContext context) {
     return Container(
-      child: Column(
-        children: const [
-          CalculateInfoWidget(),
-          CalculateResult(),
-          CalculateWidget(),
-        ],
+      child: NutrionAnalysisProvider(
+        model: _model,
+        child: Column(
+          children: const [
+            CalculateInfoWidget(),
+            CalculateResult(),
+            CalculateWidget(),
+          ],
+        ),
       ),
     );
   }
@@ -28,6 +40,7 @@ class CalculateResult extends StatefulWidget {
 class _CalculateResultState extends State<CalculateResult> {
   @override
   Widget build(BuildContext context) {
+    final model = NutrionAnalysisProvider.watch(context)?.model;
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: Table(
@@ -40,8 +53,8 @@ class _CalculateResultState extends State<CalculateResult> {
           4: FlexColumnWidth(),
         },
         defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-        children: const <TableRow>[
-          TableRow(children: [
+        children: <TableRow>[
+          const TableRow(children: [
             Center(
               child: Text('Quantity',
                   style: TextStyle(
@@ -79,29 +92,29 @@ class _CalculateResultState extends State<CalculateResult> {
             )
           ]),
           TableRow(children: [
-            Center(
+            const Center(
               child: Text('1',
                   style: TextStyle(
                       color: AppColors.secondDarkColor, fontSize: 16)),
             ),
-            Center(
+            const Center(
               child: Text('whole',
                   style: TextStyle(
                       color: AppColors.secondDarkColor, fontSize: 16)),
             ),
             Center(
-              child: Text('chocolate',
-                  style: TextStyle(
+              child: Text(model!.ingredient.name,
+                  style: const TextStyle(
                       color: AppColors.secondDarkColor, fontSize: 16)),
             ),
             Center(
-              child: Text('48 kcal',
-                  style: TextStyle(
+              child: Text('${model.ingredient.calories} kcal',
+                  style: const TextStyle(
                       color: AppColors.secondDarkColor, fontSize: 16)),
             ),
             Center(
-              child: Text('10 g',
-                  style: TextStyle(
+              child: Text('${model.ingredient.totalWeight} g',
+                  style: const TextStyle(
                       color: AppColors.secondDarkColor, fontSize: 16)),
             )
           ])
@@ -134,6 +147,18 @@ class CalculateWidget extends StatefulWidget {
 
 class _CalculateWidgetState extends State<CalculateWidget> {
   bool isChecked = false;
+  final ingredientController = TextEditingController();
+
+  void onCalculateTap() {
+    NutrionAnalysisProvider.read(context)
+        ?.model
+        .analysisByIngredient(ingredientController.text, isChecked);
+    ingredientController.text = '';
+    if (isChecked) {
+      isChecked = false;
+      setState(() {});
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -154,6 +179,7 @@ class _CalculateWidgetState extends State<CalculateWidget> {
                   borderSide:
                       const BorderSide(width: 0, color: AppColors.secondColor)),
             ),
+            controller: ingredientController,
           ),
           const SizedBox(height: 20),
           Row(
@@ -178,7 +204,7 @@ class _CalculateWidgetState extends State<CalculateWidget> {
                         MaterialStateProperty.all(AppColors.mainColor),
                     shape: MaterialStateProperty.all(RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(25.0)))),
-                onPressed: () {},
+                onPressed: onCalculateTap,
                 child: const Text(
                   'Calculate',
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),

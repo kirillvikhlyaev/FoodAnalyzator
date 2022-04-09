@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_analyzer/app_colors/app_colors.dart';
-import 'package:food_analyzer/widgets/favorite_show_provider.dart';
+import 'package:food_analyzer/providers/favorite_show_provider.dart';
 
 class FavoriteList extends StatefulWidget {
   const FavoriteList({Key? key}) : super(key: key);

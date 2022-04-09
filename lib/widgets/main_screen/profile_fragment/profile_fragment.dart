@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_analyzer/app_colors/app_colors.dart';
+import 'package:food_analyzer/models/featuresdata.dart';
 
 class ProfileFragment extends StatelessWidget {
   const ProfileFragment({Key? key}) : super(key: key);
@@ -131,14 +132,6 @@ class _UserFeatureListItemState extends State<UserFeatureListItem> {
   }
 }
 
-class FeatureData {
-  final int id;
-  final IconData icon;
-  final String nameOfFeature;
-
-  FeatureData(
-      {required this.id, required this.icon, required this.nameOfFeature});
-}
 /*
 
   Вариант: Под юзернеймом сделать календарную рулетку и 

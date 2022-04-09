@@ -3,13 +3,16 @@ import 'dart:io';
 
 import 'package:food_analyzer/models/recipe.dart';
 
-class ApiClient {
+class RecipeApiClient {
   final client = HttpClient();
 
   Future<List<Recipe>> getRecipiesByKey(
       String key, String cuisinType, String mealType, String dishType) async {
     List<Recipe> recList = [];
-//
+
+    const APPID = '6d380312';
+    const APPKEY = '87bd4b90aa93c4dc4d12c92ba7f46672';
+
     final url = Uri.parse(
         'https://api.edamam.com/api/recipes/v2?type=public&q=${key}&app_id=${APPID}&app_key=${APPKEY}' +
             cuisinType +
