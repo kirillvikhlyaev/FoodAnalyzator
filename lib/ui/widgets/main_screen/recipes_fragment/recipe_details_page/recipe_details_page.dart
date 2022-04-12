@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:food_analyzer/app_colors/app_colors.dart';
 import 'package:food_analyzer/models/recipe.dart';
+import 'package:food_analyzer/navigation/main_navigation.dart';
 import 'package:food_analyzer/providers/favorite_provider.dart';
+import 'package:food_analyzer/providers/inherited_provider_helper/inherited_helpers.dart';
 import 'package:food_analyzer/providers/provider_model.dart';
 
 class RecipeDetails extends StatefulWidget {
@@ -27,7 +29,7 @@ class _RecipeDetailsState extends State<RecipeDetails> {
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-          child: FavoriteListProvider(
+          child: SimpleProvider(
               model: _model, child: RecipeInfo(recipe: widget.recipeObject)),
         ),
       ),
@@ -55,14 +57,16 @@ class _RecipeInfoState extends State<RecipeInfo> {
         favIcon = Icons.favorite;
 
         print(widget.recipe.title);
-        FavoriteListProvider.watch(context)?.model.addToFavList(widget.recipe);
+        SimpleProvider.watch<AddToFavoriteListModel>(context)
+            ?.addToFavList(widget.recipe);
 
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: const Text('Add to your favorite list!'),
           action: SnackBarAction(
             label: 'SHOW',
             onPressed: () {
-              Navigator.of(context).pushNamed('/main_screen/favorite_list');
+              Navigator.of(context)
+                  .pushNamed(MainNavigationRouteNames.favoriteList);
             },
           ),
         ));

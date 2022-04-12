@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:food_analyzer/app_colors/app_colors.dart';
+import 'package:food_analyzer/navigation/main_navigation.dart';
 import 'package:food_analyzer/providers/favorite_show_provider.dart';
+import 'package:food_analyzer/providers/inherited_provider_helper/inherited_helpers.dart';
 
 class FavoriteList extends StatefulWidget {
   const FavoriteList({Key? key}) : super(key: key);
@@ -23,8 +25,8 @@ class _FavoriteListState extends State<FavoriteList> {
             centerTitle: true),
         body: Container(
           color: AppColors.secondColor,
-          child: FavoriteShowProvider(
-              model: _model, child: const FavoriteListBody()),
+          child:
+              ProviderNotifier(model: _model, child: const FavoriteListBody()),
         ));
   }
 }
@@ -39,8 +41,10 @@ class FavoriteListBody extends StatefulWidget {
 class _FavoriteListBodyState extends State<FavoriteListBody> {
   @override
   Widget build(BuildContext context) {
-    final recipiesCount =
-        FavoriteShowProvider.of(context)?.model.favoriteList.length ?? 0;
+    final recipiesCount = ProviderNotifier.watch<ShowFavoriteListModel>(context)
+            ?.favoriteList
+            .length ??
+        0;
     return ListView.separated(
         reverse: true,
         itemBuilder: (BuildContext context, int index) {
@@ -64,14 +68,15 @@ class RecipiesRowWidget extends StatefulWidget {
 class _RecipiesRowWidgetState extends State<RecipiesRowWidget> {
   @override
   Widget build(BuildContext context) {
-    final recipeList =
-        FavoriteShowProvider.of(context)!.model.favoriteList.toList();
-    final recipe = recipeList[widget.index];
+    final recipeList = ProviderNotifier.watch<ShowFavoriteListModel>(context)
+        ?.favoriteList
+        .toList();
+    final recipe = recipeList![widget.index];
 
     void _onReadMoreButtonTap() {
       final recipeObject = recipe;
       Navigator.of(context).pushNamed(
-          '/main_screen/favorite_list/favorite_recipe_details',
+          MainNavigationRouteNames.favoriteRecipeDetails,
           arguments: recipeObject);
     }
 
@@ -113,9 +118,9 @@ class _RecipiesRowWidgetState extends State<RecipiesRowWidget> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               TextButton(
-                onPressed: () => FavoriteShowProvider.of(context)
-                    ?.model
-                    .deleteRecipe(widget.index),
+                onPressed: () =>
+                    ProviderNotifier.watch<ShowFavoriteListModel>(context)
+                        ?.deleteRecipe(widget.index),
                 child: const Text('Delete',
                     style: TextStyle(
                         color: Color.fromARGB(255, 204, 48, 0),

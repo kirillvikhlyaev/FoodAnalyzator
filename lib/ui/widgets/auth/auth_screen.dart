@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_analyzer/app_colors/app_colors.dart';
+import 'package:food_analyzer/navigation/main_navigation.dart';
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({Key? key}) : super(key: key);
@@ -50,7 +51,8 @@ class _AuthFormState extends State<AuthForm> {
       errorMessage = 'Fill in the fields';
     } else if (login == "admin" && pass == "admin") {
       errorMessage = null;
-      Navigator.pushReplacementNamed(context, '/main_screen');
+      Navigator.pushReplacementNamed(
+          context, MainNavigationRouteNames.mainScreen);
     } else {
       errorMessage = 'User name or password incorrect!';
     }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food_analyzer/app_colors/app_colors.dart';
 import 'package:food_analyzer/models/featuresdata.dart';
+import 'package:food_analyzer/navigation/main_navigation.dart';
 
 class ProfileFragment extends StatelessWidget {
   const ProfileFragment({Key? key}) : super(key: key);
@@ -96,13 +97,14 @@ class _UserFeatureListItemState extends State<UserFeatureListItem> {
     void _OnFeatureTap() {
       switch (widget.data.id) {
         case 1:
-          Navigator.of(context).pushNamed('/main_screen/calculating_history');
+          Navigator.of(context).pushNamed(MainNavigationRouteNames.calcHistory);
           break;
         case 2:
-          Navigator.of(context).pushNamed('/main_screen/favorite_list');
+          Navigator.of(context)
+              .pushNamed(MainNavigationRouteNames.favoriteList);
           break;
         case 3:
-          Navigator.of(context).pushNamed('/main_screen/settings');
+          Navigator.of(context).pushNamed(MainNavigationRouteNames.settings);
           break;
       }
     }

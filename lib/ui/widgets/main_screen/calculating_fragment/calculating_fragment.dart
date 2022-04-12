@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:food_analyzer/api_handler/nutrion_analysis_api_handler.dart';
 import 'package:food_analyzer/app_colors/app_colors.dart';
 import 'package:food_analyzer/providers/calculating_history_save_provider.dart';
+import 'package:food_analyzer/providers/inherited_provider_helper/inherited_helpers.dart';
 import 'package:food_analyzer/providers/nutrion_analysis_provider.dart';
 
 class CalculatingFragment extends StatefulWidget {
@@ -16,7 +17,7 @@ class _CalculatingFragmentState extends State<CalculatingFragment> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: NutrionAnalysisProvider(
+      child: ProviderNotifier(
         model: _model,
         child: Column(
           children: const [
@@ -40,7 +41,7 @@ class CalculateResult extends StatefulWidget {
 class _CalculateResultState extends State<CalculateResult> {
   @override
   Widget build(BuildContext context) {
-    final model = NutrionAnalysisProvider.watch(context)?.model;
+    final model = ProviderNotifier.watch<NutrionAnalysisModel>(context);
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: Table(
@@ -150,9 +151,8 @@ class _CalculateWidgetState extends State<CalculateWidget> {
   final ingredientController = TextEditingController();
 
   void onCalculateTap() {
-    NutrionAnalysisProvider.read(context)
-        ?.model
-        .analysisByIngredient(ingredientController.text, isChecked);
+    ProviderNotifier.watch<NutrionAnalysisModel>(context)
+        ?.analysisByIngredient(ingredientController.text, isChecked);
     ingredientController.text = '';
     if (isChecked) {
       isChecked = false;

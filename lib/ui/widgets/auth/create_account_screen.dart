@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_analyzer/app_colors/app_colors.dart';
+import 'package:food_analyzer/navigation/main_navigation.dart';
 
 class CreateAccountScreen extends StatelessWidget {
   const CreateAccountScreen({Key? key}) : super(key: key);
@@ -60,7 +61,8 @@ class _CreateAccountFormState extends State<CreateAccountForm> {
 
   void OnCreateClick() {
     if (validCheckAndCheck()) {
-      Navigator.pushReplacementNamed(context, '/main_screen');
+      Navigator.pushReplacementNamed(
+          context, MainNavigationRouteNames.mainScreen);
     }
   }
 

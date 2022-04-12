@@ -43,14 +43,3 @@ class ShowFavoriteListModel extends ChangeNotifier {
     });
   }
 }
-
-class FavoriteShowProvider extends InheritedNotifier {
-  final ShowFavoriteListModel model;
-  const FavoriteShowProvider(
-      {Key? key, required this.model, required Widget child})
-      : super(key: key, notifier: model, child: child);
-
-  static FavoriteShowProvider? of(BuildContext context) {
-    return context.dependOnInheritedWidgetOfExactType<FavoriteShowProvider>();
-  }
-}

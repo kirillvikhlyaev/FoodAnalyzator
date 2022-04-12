@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food_analyzer/app_colors/app_colors.dart';
 import 'package:food_analyzer/providers/calculating_history_save_provider.dart';
+import 'package:food_analyzer/providers/inherited_provider_helper/inherited_helpers.dart';
 
 class CalculatingHistory extends StatefulWidget {
   const CalculatingHistory({Key? key}) : super(key: key);
@@ -23,7 +24,7 @@ class _CalculatingHistoryState extends State<CalculatingHistory> {
             centerTitle: true),
         body: Container(
           color: AppColors.secondColor,
-          child: SaveToHistoryProvider(model: _model, child: ListOfHistory()),
+          child: ProviderNotifier(model: _model, child: ListOfHistory()),
         ));
   }
 }
@@ -38,8 +39,10 @@ class ListOfHistory extends StatefulWidget {
 class _ListOfHistoryState extends State<ListOfHistory> {
   @override
   Widget build(BuildContext context) {
-    var elementsCount =
-        SaveToHistoryProvider.watch(context)?.model.calcHistoryList.length ?? 0;
+    var elementsCount = ProviderNotifier.watch<SaveToHistoryModel>(context)
+            ?.calcHistoryList
+            .length ??
+        0;
     return ListView.separated(
       reverse: false,
       itemBuilder: (BuildContext context, int index) {
@@ -60,11 +63,12 @@ class ItemOfHistory extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     void deleteFromHistory(int index) {
-      SaveToHistoryProvider.read(context)?.model.removeFromCalcHistory(index);
+      ProviderNotifier.read<SaveToHistoryModel>(context)
+          ?.removeFromCalcHistory(index);
     }
 
-    final item =
-        SaveToHistoryProvider.read(context)!.model.calcHistoryList[index];
+    final item = ProviderNotifier.read<SaveToHistoryModel>(context)!
+        .calcHistoryList[index];
     return ColoredBox(
       color: Colors.white,
       child: ListTile(

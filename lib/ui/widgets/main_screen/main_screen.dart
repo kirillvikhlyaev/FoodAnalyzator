@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:food_analyzer/app_colors/app_colors.dart';
-import 'package:food_analyzer/widgets/main_screen/calculating_fragment/calculating_fragment.dart';
-import 'package:food_analyzer/widgets/main_screen/profile_fragment/profile_fragment.dart';
-import 'package:food_analyzer/widgets/main_screen/recipes_fragment/recipes_fragment.dart';
+import 'package:food_analyzer/ui/widgets/main_screen/calculating_fragment/calculating_fragment.dart';
+import 'package:food_analyzer/ui/widgets/main_screen/profile_fragment/profile_fragment.dart';
+import 'package:food_analyzer/ui/widgets/main_screen/recipes_fragment/recipes_fragment.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -20,7 +20,7 @@ class _MainScreenState extends State<MainScreen> {
     const CalculatingFragment(),
     const ProfileFragment(),
   ];
-  String screenName = 'Main';
+  String screenName = 'Dishly';
 
   void _OnItemTapped(int index) {
     setState(() {

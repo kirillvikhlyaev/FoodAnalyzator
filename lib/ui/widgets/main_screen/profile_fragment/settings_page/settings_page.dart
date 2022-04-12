@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:food_analyzer/app_colors/app_colors.dart';
 import 'package:food_analyzer/models/featuresdata.dart';
+import 'package:food_analyzer/navigation/main_navigation.dart';
 import 'package:food_analyzer/providers/calculating_history_save_provider.dart';
 import 'package:food_analyzer/providers/favorite_show_provider.dart';
+import 'package:food_analyzer/providers/inherited_provider_helper/inherited_helpers.dart';
 
 class Settings extends StatelessWidget {
   const Settings({Key? key}) : super(key: key);
@@ -50,9 +52,9 @@ class _SettingsListState extends State<SettingsList> {
   Widget build(BuildContext context) {
     final List<SettingsItem> settingsItems =
         data.map((FeatureData item) => SettingsItem(data: item)).toList();
-    return SaveToHistoryProvider(
+    return SimpleProvider(
       model: _calcModel,
-      child: FavoriteShowProvider(
+      child: ProviderNotifier(
         model: _favModel,
         child: ListView.separated(
           itemBuilder: (BuildContext context, int index) {
@@ -82,13 +84,14 @@ class _SettingsItemState extends State<SettingsItem> {
     void _OnFeatureTap() {
       switch (widget.data.id) {
         case 1:
-          SaveToHistoryProvider.read(context)?.model.clearCalcHistory();
+          SimpleProvider.read<SaveToHistoryModel>(context)?.clearCalcHistory();
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
               content: Text('History cleared'),
               duration: Duration(seconds: 1)));
           break;
         case 2:
-          FavoriteShowProvider.of(context)?.model.clearRecipeList();
+          ProviderNotifier.watch<ShowFavoriteListModel>(context)
+              ?.clearRecipeList();
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
               content: Text(
                 'Favorite list cleared',
@@ -96,7 +99,7 @@ class _SettingsItemState extends State<SettingsItem> {
               duration: Duration(seconds: 1)));
           break;
         case 3:
-          Navigator.of(context).pushNamed('/auth');
+          Navigator.of(context).pushNamed(MainNavigationRouteNames.auth);
           break;
       }
     }

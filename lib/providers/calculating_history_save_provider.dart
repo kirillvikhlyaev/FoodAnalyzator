@@ -42,21 +42,3 @@ class SaveToHistoryModel extends ChangeNotifier {
     box.clear();
   }
 }
-
-class SaveToHistoryProvider extends InheritedNotifier {
-  final SaveToHistoryModel model;
-  const SaveToHistoryProvider(
-      {Key? key, required this.model, required Widget child})
-      : super(key: key, notifier: model, child: child);
-
-  static SaveToHistoryProvider? read(BuildContext context) {
-    final widget = context
-        .getElementForInheritedWidgetOfExactType<SaveToHistoryProvider>()
-        ?.widget;
-    return widget is SaveToHistoryProvider ? widget : null;
-  }
-
-  static SaveToHistoryProvider? watch(BuildContext context) {
-    return context.dependOnInheritedWidgetOfExactType<SaveToHistoryProvider>();
-  }
-}

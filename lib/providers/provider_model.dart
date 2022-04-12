@@ -5,6 +5,7 @@ import 'package:food_analyzer/models/recipe.dart';
 class RecipeWidgetModel extends ChangeNotifier {
   final apiClient = RecipeApiClient();
   var _recipies = <Recipe>[];
+  // String key = '';
 
   String _cuisineTypeValue = 'All';
   String _dishTypeValue = 'All';
@@ -16,16 +17,11 @@ class RecipeWidgetModel extends ChangeNotifier {
 
   List<Recipe> get recipies => _recipies;
 
-  // Future<void> reloadRecipies() async {
-  //   final recipiess = await apiClient.getRecipies();
-  //   _recipies = recipiess;
-  //   notifyListeners();
-  // }
-
   Future<void> searchByKey(String key) async {
     String cuisineType;
     String dishType;
     String mealType;
+    // this.key = key;
 
     if (_cuisineTypeValue == 'All') {
       cuisineType = '';
@@ -48,24 +44,10 @@ class RecipeWidgetModel extends ChangeNotifier {
     _recipies = recipiess;
     notifyListeners();
   }
-}
 
-class RecipeModelProvider extends InheritedNotifier {
-  final RecipeWidgetModel model;
-  const RecipeModelProvider(
-      {Key? key, required this.child, required this.model})
-      : super(key: key, notifier: model, child: child);
-
-  final Widget child;
-
-  static RecipeModelProvider? watch(BuildContext context) {
-    return context.dependOnInheritedWidgetOfExactType<RecipeModelProvider>();
-  }
-
-  static RecipeModelProvider? read(BuildContext context) {
-    final widget = context
-        .getElementForInheritedWidgetOfExactType<RecipeModelProvider>()
-        ?.widget;
-    return widget is RecipeModelProvider ? widget : null;
-  }
+  // void updateRecipeFeed(int index) {
+  //   int count = apiClient.count;
+  //   if (index < recipies.length - 1) return;
+  //   searchByKey(key);
+  // }
 }

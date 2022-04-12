@@ -1,24 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:food_analyzer/app_colors/app_colors.dart';
-import 'package:food_analyzer/models/recipe.dart';
+import 'package:food_analyzer/navigation/main_navigation.dart';
+import 'package:food_analyzer/providers/inherited_provider_helper/inherited_helpers.dart';
 import 'package:food_analyzer/providers/provider_model.dart';
 
 class RecipesFragment extends StatefulWidget {
-  RecipesFragment({Key? key}) : super(key: key);
+  const RecipesFragment({Key? key}) : super(key: key);
 
   @override
   State<RecipesFragment> createState() => _RecipesFragmentState();
 }
 
 class _RecipesFragmentState extends State<RecipesFragment> {
-  final ApiModel = RecipeWidgetModel();
+  final _recipeModel = RecipeWidgetModel();
 
   @override
   Widget build(BuildContext context) {
     return Container(
       color: AppColors.secondColor,
-      child: RecipeModelProvider(
-        model: ApiModel,
+      child: ProviderNotifier(
+        model: _recipeModel,
         child: Column(
           children: [
             RecipeInfo(),
@@ -57,7 +58,8 @@ class _RecipeInfoState extends State<RecipeInfo> {
 
     void onSearchTap() {
       widget.isFilteredSearchVisible = false;
-      RecipeModelProvider.read(context)?.model.searchByKey(controller.text);
+      final model = ProviderNotifier.read<RecipeWidgetModel>(context);
+      model?.searchByKey(controller.text);
       setState(() {});
     }
 
@@ -199,8 +201,9 @@ class __AdvansedSearchFieldState extends State<_AdvansedSearchField> {
                 onChanged: (String? newValue) {
                   setState(() {
                     cuisineTypeValue = newValue!;
-                    RecipeModelProvider.read(context)?.model.cuisineTypeValue =
-                        cuisineTypeValue;
+
+                    ProviderNotifier.read<RecipeWidgetModel>(context)
+                        ?.cuisineTypeValue = cuisineTypeValue;
                   });
                 },
                 items:
@@ -236,8 +239,8 @@ class __AdvansedSearchFieldState extends State<_AdvansedSearchField> {
                 onChanged: (String? newValue) {
                   setState(() {
                     dishTypeValue = newValue!;
-                    RecipeModelProvider.read(context)?.model.dishTypeValue =
-                        dishTypeValue;
+                    ProviderNotifier.read<RecipeWidgetModel>(context)
+                        ?.dishTypeValue = dishTypeValue;
                   });
                 },
                 items: dishTypes.map<DropdownMenuItem<String>>((String value) {
@@ -272,8 +275,8 @@ class __AdvansedSearchFieldState extends State<_AdvansedSearchField> {
                 onChanged: (String? newValue) {
                   setState(() {
                     mealTypeValue = newValue!;
-                    RecipeModelProvider.read(context)?.model.mealTypeValue =
-                        mealTypeValue;
+                    ProviderNotifier.read<RecipeWidgetModel>(context)
+                        ?.mealTypeValue = mealTypeValue;
                   });
                 },
                 items: mealTypes.map<DropdownMenuItem<String>>((String value) {
@@ -299,8 +302,12 @@ class _RecipiesWidget extends StatelessWidget {
     return ListView.separated(
       scrollDirection: Axis.vertical,
       shrinkWrap: true,
-      itemCount: RecipeModelProvider.watch(context)?.model.recipies.length ?? 0,
+      itemCount:
+          ProviderNotifier.watch<RecipeWidgetModel>(context)?.recipies.length ??
+              0,
       itemBuilder: (BuildContext context, int index) {
+        // ProviderNotifier.watch<RecipeWidgetModel>(context)
+        //     ?.updateRecipeFeed(index);
         return RecipiesRowWidget(index: index);
       },
       separatorBuilder: (BuildContext context, int index) {
@@ -322,20 +329,26 @@ class RecipiesRowWidget extends StatefulWidget {
 class _RecipiesRowWidgetState extends State<RecipiesRowWidget> {
   @override
   Widget build(BuildContext context) {
-    final recipe =
-        RecipeModelProvider.read(context)!.model.recipies[widget.index];
+    print(widget.index);
+    final recipe = ProviderNotifier.read<RecipeWidgetModel>(context)
+        ?.recipies[widget.index];
 
     void _onReadMoreButtonTap() {
       final recipeObject = recipe;
-      Navigator.of(context)
-          .pushNamed('/main_screen/recipe_details', arguments: recipeObject);
+      Navigator.of(context).pushNamed(MainNavigationRouteNames.recipeDetails,
+          arguments: recipeObject);
     }
 
     return Container(
       color: Colors.white,
       child: Column(
         children: [
-          Image(image: NetworkImage(recipe.imgURL)),
+          recipe!.imgURL != null
+              ? Image.network(
+                  recipe.imgURL,
+                  scale: 0.7,
+                )
+              : SizedBox.shrink(),
           const SizedBox(height: 10),
           Padding(
             padding: const EdgeInsets.all(8.0),

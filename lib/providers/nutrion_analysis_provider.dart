@@ -24,22 +24,3 @@ class NutrionAnalysisModel extends ChangeNotifier {
 
   void addToCalcHistory() async {}
 }
-
-class NutrionAnalysisProvider extends InheritedNotifier {
-  final NutrionAnalysisModel model;
-  NutrionAnalysisProvider(
-      {Key? key, required this.model, required Widget child})
-      : super(key: key, notifier: model, child: child);
-
-  static NutrionAnalysisProvider? watch(BuildContext context) {
-    return context
-        .dependOnInheritedWidgetOfExactType<NutrionAnalysisProvider>();
-  }
-
-  static NutrionAnalysisProvider? read(BuildContext context) {
-    final widget = context
-        .getElementForInheritedWidgetOfExactType<NutrionAnalysisProvider>()
-        ?.widget;
-    return widget is NutrionAnalysisProvider ? widget : null;
-  }
-}
