@@ -183,6 +183,7 @@ class _CalculateWidgetState extends State<CalculateWidget> {
           ),
           const SizedBox(height: 20),
           Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Checkbox(
                   fillColor: MaterialStateProperty.all(AppColors.mainColor),

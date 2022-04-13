@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:food_analyzer/app_colors/app_colors.dart';
 import 'package:food_analyzer/models/featuresdata.dart';
 import 'package:food_analyzer/navigation/main_navigation.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ProfileFragment extends StatelessWidget {
   const ProfileFragment({Key? key}) : super(key: key);
@@ -10,7 +13,7 @@ class ProfileFragment extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView(
       children: [
-        const ProfileInfo(),
+        ProfileInfo(),
         UserFeatureList(),
       ],
     );
@@ -27,18 +30,54 @@ class ProfileInfo extends StatefulWidget {
 class _ProfileInfoState extends State<ProfileInfo> {
   @override
   Widget build(BuildContext context) {
+    File? _image;
+    _selectImage() {
+      File img =
+          (ImagePicker.platform.pickImage(source: ImageSource.gallery)) as File;
+
+      setState(() {
+        _image = img;
+      });
+    }
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
-      children: const [
+      children: [
         SizedBox(height: 20),
-        CircleAvatar(
-          child: Icon(
-            Icons.person,
-            size: 100,
-            color: AppColors.secondDarkColor,
+        ClipOval(
+          child: Stack(
+            children: [
+              CircleAvatar(
+                child: _image == null
+                    ? const Icon(
+                        Icons.person,
+                        size: 100,
+                        color: AppColors.secondDarkColor,
+                      )
+                    : Image.file(_image!, height: 200, width: 200),
+                backgroundColor: AppColors.secondColor,
+                radius: 60.0,
+              ),
+              Positioned(
+                top: 80,
+                right: -15,
+                child: TextButton(
+                  onPressed: _selectImage,
+                  child: const Text(
+                    'Change',
+                    style: TextStyle(color: AppColors.secondDarkColor),
+                  ),
+                  style: ButtonStyle(
+                      minimumSize:
+                          MaterialStateProperty.all(const Size(150, 10)),
+                      backgroundColor: MaterialStateProperty.all(
+                          Color.fromARGB(54, 68, 74, 90)),
+                      overlayColor: MaterialStateProperty.all(
+                          Color.fromARGB(45, 68, 74, 90))),
+                ),
+              ),
+            ],
           ),
-          backgroundColor: AppColors.secondColor,
-          radius: 60.0,
         ),
         SizedBox(height: 10),
         Text('Username',

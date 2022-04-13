@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:food_analyzer/api_handler/api_keys.dart';
 import 'package:food_analyzer/models/recipe.dart';
 
 class RecipeApiClient {
@@ -10,13 +11,9 @@ class RecipeApiClient {
   Future<List<Recipe>> getRecipiesByKey(
       String key, String cuisinType, String mealType, String dishType) async {
     List<Recipe> recList = [];
-<<<<<<< HEAD
 
-=======
-    //APIs keys fields
->>>>>>> a76e2baa1013f0b615e9b35293c7cc9e12f7d472
     final url = Uri.parse(
-        'https://api.edamam.com/api/recipes/v2?type=public&q=${key}&app_id=${APPID}&app_key=${APPKEY}' +
+        'https://api.edamam.com/api/recipes/v2?type=public&q=${key}&app_id=${ApiData.recipeApiID}&app_key=${ApiData.recipeApiKEY}' +
             cuisinType +
             mealType +
             dishType);

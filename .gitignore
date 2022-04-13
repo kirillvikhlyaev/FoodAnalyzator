@@ -31,6 +31,9 @@
 .pub/
 /build/
 
+#API-DATA
+lib/api_handler/api_keys.dart
+
 # Web related
 lib/generated_plugin_registrant.dart
 
