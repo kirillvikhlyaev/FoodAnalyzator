@@ -28,56 +28,60 @@ class ProfileInfo extends StatefulWidget {
 }
 
 class _ProfileInfoState extends State<ProfileInfo> {
+  File? _image;
+  final ImagePicker _picker = ImagePicker();
+
+  Future<void> _selectImage() async {
+    try {
+      final img = await _picker.pickImage(source: ImageSource.gallery);
+      if (img == null) return;
+
+      final imgTemp = File(img.path);
+      print("Загружено");
+      setState(() {
+        _image = imgTemp;
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    File? _image;
-    _selectImage() {
-      File img =
-          (ImagePicker.platform.pickImage(source: ImageSource.gallery)) as File;
-
-      setState(() {
-        _image = img;
-      });
-    }
-
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         SizedBox(height: 20),
-        ClipOval(
-          child: Stack(
-            children: [
-              CircleAvatar(
+        Stack(
+          children: [
+            ClipOval(
+              child: CircleAvatar(
                 child: _image == null
                     ? const Icon(
                         Icons.person,
                         size: 100,
                         color: AppColors.secondDarkColor,
                       )
-                    : Image.file(_image!, height: 200, width: 200),
+                    : Image.file(File(_image!.path)),
                 backgroundColor: AppColors.secondColor,
                 radius: 60.0,
               ),
-              Positioned(
-                top: 80,
-                right: -15,
-                child: TextButton(
-                  onPressed: _selectImage,
-                  child: const Text(
-                    'Change',
-                    style: TextStyle(color: AppColors.secondDarkColor),
-                  ),
-                  style: ButtonStyle(
-                      minimumSize:
-                          MaterialStateProperty.all(const Size(150, 10)),
-                      backgroundColor: MaterialStateProperty.all(
-                          Color.fromARGB(54, 68, 74, 90)),
-                      overlayColor: MaterialStateProperty.all(
-                          Color.fromARGB(45, 68, 74, 90))),
+            ),
+            Positioned(
+              top: 70,
+              left: 70,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  primary: AppColors.appBarColor,
+                  shape: CircleBorder(),
+                  padding: EdgeInsets.all(0),
                 ),
+                clipBehavior: Clip.antiAlias,
+                child: Icon(Icons.add_a_photo),
+                onPressed: _selectImage,
               ),
-            ],
-          ),
+            )
+          ],
         ),
         SizedBox(height: 10),
         Text('Username',
